@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>dp on  tree | Ginatia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="DP on Trees Tutorial Problem 1N个点的树，每个节点 iii 有权值 CiC_iCi​   你可以选择一些节点 ，并保持节点两两不相邻，计算其总和, 求出最大总和     max:∑cimax:{ \sum c_i }max:∑ci​ 设当前节点为 u , u 的父亲为 f,u相邻的节点为v    若选择 u , 那么不能选择 v ,只能选择v的儿子    若不选择 u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dp on  tree">
+<meta property="og:url" content="http://example.com/2024/04/28/dp_on_tree/index.html">
+<meta property="og:site_name" content="Ginatia">
+<meta property="og:description" content="DP on Trees Tutorial Problem 1N个点的树，每个节点 iii 有权值 CiC_iCi​   你可以选择一些节点 ，并保持节点两两不相邻，计算其总和, 求出最大总和     max:∑cimax:{ \sum c_i }max:∑ci​ 设当前节点为 u , u 的父亲为 f,u相邻的节点为v    若选择 u , 那么不能选择 v ,只能选择v的儿子    若不选择 u">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-28T15:16:03.279Z">
+<meta property="article:author" content="ginatia">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Ginatia" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css" integrity="sha256-TThEtR+XalhWKkfF383YLOrI50NGNeIqrzS+q08afrY=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Ginatia</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-dp_on_tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/28/dp_on_tree/" class="article-date">
+  <time class="dt-published" datetime="2024-04-27T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/286</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      dp on  tree
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://codeforces.com/blog/entry/20935">DP on Trees Tutorial</a></p>
+<h3 id="Problem-1"><a href="#Problem-1" class="headerlink" title="Problem 1"></a>Problem 1</h3><p>N个点的树，每个节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 有权值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">C_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>  </p>
+<p>你可以选择一些节点 ，并保持节点两两不相邻，计算其总和, 求出最大总和    </p>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo>:</mo><mrow><mo>∑</mo><msub><mi>c</mi><mi>i</mi></msub></mrow></mrow><annotation encoding="application/x-tex">max:{ \sum c_i }</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+<p>设当前节点为 u , u 的父亲为 f,u相邻的节点为v  </p>
+<ul>
+<li><p>若选择 u , 那么不能选择 v ,只能选择v的儿子  </p>
+</li>
+<li><p>若不选择 u , 那么可以选择v,也可以选择v的儿子  </p>
+</li>
+</ul>
+<p>设 dp[u][0]: 不选择 u节点  ,dp[u][1]:选择u节点  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dp[u][0]+= std::max(dp[v][0],dp[v][1])  </span><br><span class="line"></span><br><span class="line">dp[u][1]+= C[u]+ dp[v][0]  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//adjacency list</span></span><br><span class="line"><span class="comment">//adj[i] contains all neighbors of i</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; adj[N];</span><br><span class="line"></span><br><span class="line"><span class="comment">//functions as defined above</span></span><br><span class="line"><span class="type">int</span> dp1[N],dp2[N];</span><br><span class="line"></span><br><span class="line"><span class="comment">//pV is parent of node V</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> V, <span class="type">int</span> pV)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//for storing sums of dp1 and max(dp1, dp2) for all children of V</span></span><br><span class="line">    <span class="type">int</span> sum1=<span class="number">0</span>, sum2=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//traverse over all children</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> v: adj[V])&#123;</span><br><span class="line">    <span class="keyword">if</span>(v == pV) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">dfs</span>(v, V);</span><br><span class="line">    sum1 += dp2[v];</span><br><span class="line">    sum2 += <span class="built_in">max</span>(dp1[v], dp2[v]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dp1[V] = C[V] + sum1;</span><br><span class="line">    dp2[V] = sum2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;n; i++)&#123;</span><br><span class="line">    cin &gt;&gt; u &gt;&gt; v;</span><br><span class="line">    adj[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">    adj[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> ans = <span class="built_in">max</span>(dp1[<span class="number">1</span>], dp2[<span class="number">1</span>]);</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Problem-2"><a href="#Problem-2" class="headerlink" title="Problem 2"></a>Problem 2</h3><p>N个点的树，计算任意两个节点之间的最长路径  </p>
+<p>设根节点为 root=1  </p>
+<ul>
+<li>f(x) : 最长路径从节点x开始并终止于x的子树节点  </li>
+<li>g(x) : 最长路径从节点x的子树节点开始，经过x，终止于x的子树节点  </li>
+</ul>
+<p>答案为   <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><mi>V</mi><mo separator="true">,</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">{</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>g</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">x \in V, max\{  f(x),g(x) \} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)}</span></span></span></span>  </p>
+<p>if x is leaf,then f[x]=0</p>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">{</mo><mi>f</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex"> f(x)=1+max \{f(y)\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)}</span></span></span></span> y is son of x   
+
+
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn><mo>+</mo><mi>s</mi><mi>u</mi><mi>m</mi><mtext> </mtext><mi>o</mi><mi>f</mi><mtext> </mtext><mi>t</mi><mi>w</mi><mi>o</mi><mtext> </mtext><mi>m</mi><mi>a</mi><mi>x</mi><mtext> </mtext><mo stretchy="false">{</mo><mi>f</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex"> g(x) = 2+ sum \ of \ two \  max \ \{ f(y) \} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace"> </span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mspace"> </span><span class="mord mathnormal" style="margin-right:0.02691em;">tw</span><span class="mord mathnormal">o</span><span class="mspace"> </span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mspace"> </span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)}</span></span></span></span>  y is son of x
+
+模板题:
+[Tree Diameter](https://cses.fi/problemset/task/1131)
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> n;std::cin&gt;&gt;n;</span><br><span class="line">  std::vector&lt;std::vector&lt;<span class="type">int</span>&gt;&gt;<span class="built_in">adj</span>(n);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="type">int</span> u,v;std::cin&gt;&gt;u&gt;&gt;v;--u,--v;</span><br><span class="line">    adj[u].<span class="built_in">push_back</span>(v);</span><br><span class="line">    adj[v].<span class="built_in">push_back</span>(u);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  std::vector&lt;<span class="type">int</span>&gt;<span class="built_in">F</span>(n),<span class="built_in">G</span>(n);</span><br><span class="line">  <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> dfs=[&amp;](<span class="keyword">auto</span> self,<span class="type">int</span> u,<span class="type">int</span> f)-&gt;<span class="type">void</span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt;val;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> v:adj[u])&#123;</span><br><span class="line">      <span class="keyword">if</span>(v==f)<span class="keyword">continue</span>;</span><br><span class="line">      <span class="built_in">self</span>(self,v,u);</span><br><span class="line">      val.<span class="built_in">push_back</span>(F[v]);</span><br><span class="line">    &#125;</span><br><span class="line">    std::<span class="built_in">sort</span>(val.<span class="built_in">begin</span>(),val.<span class="built_in">end</span>(),std::<span class="built_in">greater</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line">    <span class="keyword">if</span>(!val.<span class="built_in">empty</span>())F[u]=<span class="number">1</span>+val[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(val.<span class="built_in">size</span>()&gt;=<span class="number">2</span>)&#123;</span><br><span class="line">      G[u]=<span class="number">2</span>+val[<span class="number">0</span>]+val[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    ans=std::<span class="built_in">max</span>(&#123;ans,F[u],G[u]&#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">dfs</span>(dfs,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">  std::cout&lt;&lt;ans&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/28/dp_on_tree/" data-id="clvjoc5vd00040lopgj0c6zfl" data-title="dp on  tree" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/04/28/dp_on_digits/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          dp on digits
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/04/28/dp_probability/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">dp for probability</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">四月 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/28/SlopeTrick/">slope trick</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/Z_Function/">Z_Functon</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/bit_dp/">bit dp</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/dp_on_digits/">dp on digits</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/dp_on_tree/">dp on  tree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 ginatia<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

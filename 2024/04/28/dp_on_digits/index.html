@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>dp on digits | Ginatia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="数位dp的dfs模板 1234567891011121314151617181920212223242526272829303132333435template&lt;typename T&gt;T calc(std::string num)&#123;    &#x2F;&#x2F;calc on num    int n&#x3D;num.size();    &#x2F;&#x2F; for not visit    const T NIL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dp on digits">
+<meta property="og:url" content="http://example.com/2024/04/28/dp_on_digits/index.html">
+<meta property="og:site_name" content="Ginatia">
+<meta property="og:description" content="数位dp的dfs模板 1234567891011121314151617181920212223242526272829303132333435template&lt;typename T&gt;T calc(std::string num)&#123;    &#x2F;&#x2F;calc on num    int n&#x3D;num.size();    &#x2F;&#x2F; for not visit    const T NIL">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-28T15:15:48.197Z">
+<meta property="article:author" content="ginatia">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Ginatia" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css" integrity="sha256-TThEtR+XalhWKkfF383YLOrI50NGNeIqrzS+q08afrY=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Ginatia</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-dp_on_digits" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/28/dp_on_digits/" class="article-date">
+  <time class="dt-published" datetime="2024-04-27T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/286</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      dp on digits
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>数位dp的dfs模板</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">T <span class="title">calc</span><span class="params">(std::string num)</span></span>&#123;</span><br><span class="line">    <span class="comment">//calc on num</span></span><br><span class="line">    <span class="type">int</span> n=num.<span class="built_in">size</span>();</span><br><span class="line">    <span class="comment">// for not visit</span></span><br><span class="line">    <span class="type">const</span> T NIL=<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//n,is_limit,...(other condition)</span></span><br><span class="line">    <span class="function">std::vector <span class="title">dp</span><span class="params">(n,std::vector(<span class="number">2</span>,NIL))</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// after limit,follow some condition</span></span><br><span class="line">    <span class="keyword">auto</span> dfs=[&amp;](<span class="keyword">auto</span> self,<span class="type">int</span> i,<span class="type">bool</span> is_limit)-&gt;T&#123;</span><br><span class="line">        <span class="comment">// the end of dfs</span></span><br><span class="line">        <span class="keyword">if</span>(i==n)&#123;</span><br><span class="line">            <span class="comment">//return condition</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">auto</span>&amp;res=dp[i][is_limit];<span class="comment">//[condition]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// had calc</span></span><br><span class="line">        <span class="keyword">if</span>(res!=NIL)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        T ans=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> up=is_limit?s[i]-<span class="string">&#x27;0&#x27;</span>:<span class="string">&#x27;9&#x27;</span>;</span><br><span class="line">        <span class="comment">// enumerate digit</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> d=<span class="number">0</span>;d&lt;=up;d++)&#123;</span><br><span class="line">            <span class="comment">//next dfs</span></span><br><span class="line">            ans+=<span class="built_in">self</span>(self,i+<span class="number">1</span>,is_limit <span class="keyword">and</span> d==up);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res=ans;</span><br><span class="line">    &#125;;  </span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dfs</span>(dfs,<span class="number">0</span>,<span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc007/tasks/abc007_4">D - 禁止された数字</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">i64 <span class="title">calc</span><span class="params">(std::string&amp;&amp; s)</span></span>&#123;</span><br><span class="line">  <span class="type">int</span> n=s.<span class="built_in">size</span>();</span><br><span class="line">  <span class="type">const</span> i64 NIL=<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function">std::vector <span class="title">dp</span><span class="params">(n,std::vector(<span class="number">2</span>,std::vector(<span class="number">2</span>,NIL)))</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> dfs=[&amp;](<span class="keyword">auto</span> self,<span class="type">int</span> i,<span class="type">bool</span> is_limit,<span class="type">bool</span> forbid)-&gt;i64&#123;</span><br><span class="line">    <span class="keyword">if</span>(i==n)&#123;</span><br><span class="line">      <span class="keyword">return</span> forbid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span>&amp;res=dp[i][is_limit][forbid];</span><br><span class="line">    <span class="keyword">if</span>(res!=NIL)&#123;</span><br><span class="line">      <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    i64 ans=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> up=is_limit?s[i]-<span class="string">&#x27;0&#x27;</span>:<span class="number">9</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> d=<span class="number">0</span>;d&lt;=up;d++)&#123;</span><br><span class="line">      ans+=<span class="built_in">self</span>(self,i+<span class="number">1</span>,is_limit <span class="keyword">and</span> d==up,forbid <span class="keyword">or</span> d==<span class="number">4</span> <span class="keyword">or</span> d==<span class="number">9</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res=ans;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">dfs</span>(dfs, <span class="number">0</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  i64 A,B;std::cin&gt;&gt;A&gt;&gt;B;</span><br><span class="line">  std::cout &lt;&lt; <span class="built_in">calc</span>(std::<span class="built_in">to_string</span>(B)) - <span class="built_in">calc</span>(std::<span class="built_in">to_string</span>(A - <span class="number">1</span>)) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc154/tasks/abc154_e">E - Almost Everywhere Zero</a></p>
+<p>1-N 之间，恰有K个非零数位的数有多少个</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  std::string S;<span class="type">int</span> K;std::cin&gt;&gt;S&gt;&gt;K;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> n=S.<span class="built_in">size</span>();</span><br><span class="line">  <span class="type">const</span> i64 NIL=<span class="number">-1</span>;</span><br><span class="line">  <span class="function">std::vector <span class="title">dp</span><span class="params">(n,std::vector(<span class="number">2</span>,std::vector(K+<span class="number">1</span>,NIL)))</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span> dfs=[&amp;](<span class="keyword">auto</span> self,<span class="type">int</span> i,<span class="type">bool</span> is_limit,<span class="type">int</span> cnt)-&gt;i64&#123;</span><br><span class="line">    <span class="keyword">if</span>(i==n)&#123;</span><br><span class="line">      <span class="keyword">return</span> cnt==K;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span>&amp;res=dp[i][is_limit][cnt];</span><br><span class="line">    <span class="keyword">if</span>(res!=NIL)<span class="keyword">return</span> res;</span><br><span class="line">    i64 ans=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> up=is_limit?S[i]-<span class="string">&#x27;0&#x27;</span>:<span class="number">9</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> d=<span class="number">0</span>;d&lt;=up;d++)&#123;</span><br><span class="line">      <span class="keyword">if</span>(d)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cnt&lt;K)ans+=<span class="built_in">self</span>(self,i+<span class="number">1</span>,is_limit <span class="keyword">and</span> d==up,cnt+<span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span>&#123;</span><br><span class="line">        ans+=<span class="built_in">self</span>(self,i+<span class="number">1</span>,is_limit <span class="keyword">and</span> d==up,cnt);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res=ans;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  std::cout&lt;&lt;<span class="built_in">dfs</span>(dfs,<span class="number">0</span>,<span class="literal">true</span>,<span class="number">0</span>)&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/28/dp_on_digits/" data-id="clvjoc5vc00030lopen43667r" data-title="dp on digits" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/04/28/bit_dp/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          bit dp
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/04/28/dp_on_tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">dp on  tree</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">四月 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/28/SlopeTrick/">slope trick</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/Z_Function/">Z_Functon</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/bit_dp/">bit dp</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/dp_on_digits/">dp on digits</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/28/dp_on_tree/">dp on  tree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 ginatia<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
