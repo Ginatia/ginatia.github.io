@@ -73,6 +73,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-abc016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/24/abc016/" class="article-date">
+  <time class="dt-published" datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/242</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/04/24/abc016/">abc016</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc016/tasks/abc016_3">C - 友達の友達</a></p>
+<p>将朋友关系抽象为边，找到最小距离为2的所有朋友关系即可  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">Dijkstra</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Edge</span> &#123;</span><br><span class="line">        <span class="type">int</span> to;</span><br><span class="line">        T cost;</span><br><span class="line">        <span class="built_in">Edge</span>(<span class="type">int</span> _to, T _cost) : <span class="built_in">to</span>(_to), <span class="built_in">cost</span>(_cost) &#123;&#125;</span><br><span class="line">        <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Edge &amp;o) <span class="type">const</span> &#123; <span class="keyword">return</span> cost &gt; o.cost; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    std::vector&lt;std::vector&lt;Edge&gt;&gt; G;</span><br><span class="line">    std::vector&lt;T&gt; ds;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; bs;</span><br><span class="line">    <span class="built_in">Dijkstra</span>(<span class="type">int</span> n) : <span class="built_in">G</span>(n) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, T c)</span> </span>&#123; G[u].<span class="built_in">emplace_back</span>(v, c); &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = G.<span class="built_in">size</span>();</span><br><span class="line">        ds.<span class="built_in">assign</span>(n, std::numeric_limits&lt;T&gt;::<span class="built_in">max</span>());</span><br><span class="line">        bs.<span class="built_in">assign</span>(n, <span class="number">-1</span>);</span><br><span class="line">        std::priority_queue&lt;Edge&gt; pq;</span><br><span class="line">        ds[s] = <span class="number">0</span>;</span><br><span class="line">        pq.<span class="built_in">emplace</span>(s, ds[s]);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">not</span> pq.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> [u, cost_u] = pq.<span class="built_in">top</span>();</span><br><span class="line">            pq.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span> (ds[u] &lt; cost_u) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> [v, cost_v] : G[u]) &#123;</span><br><span class="line">                <span class="keyword">if</span> (ds[v] &gt; ds[u] + cost_v) &#123;</span><br><span class="line">                    ds[v] = ds[u] + cost_v;</span><br><span class="line">                    bs[v] = u;</span><br><span class="line">                    pq.<span class="built_in">emplace</span>(v, ds[v]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    T <span class="keyword">operator</span>[](<span class="type">int</span> k) &#123; <span class="keyword">return</span> ds[k]; &#125;</span><br><span class="line">    <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">restore</span><span class="params">(<span class="type">int</span> to)</span> </span>&#123;</span><br><span class="line">        std::vector&lt;<span class="type">int</span>&gt; ans;</span><br><span class="line">        <span class="keyword">if</span> (bs[to] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ans;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (~to) &#123;</span><br><span class="line">            ans.<span class="built_in">emplace_back</span>(to);</span><br><span class="line">            to = bs[to];</span><br><span class="line">        &#125;</span><br><span class="line">        std::<span class="built_in">reverse</span>(ans.<span class="built_in">begin</span>(), ans.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> N,M;</span><br><span class="line">  std::cin&gt;&gt;N&gt;&gt;M;</span><br><span class="line">  Dijkstra&lt;<span class="type">int</span>&gt;<span class="built_in">g</span>(N);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;M;i++)&#123;</span><br><span class="line">    <span class="type">int</span> a,b;</span><br><span class="line">    std::cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    --a,--b;</span><br><span class="line">    g.<span class="built_in">add_edge</span>(a, b, <span class="number">1</span>);</span><br><span class="line">    g.<span class="built_in">add_edge</span>(b, a, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">auto</span> calc=[&amp;](<span class="type">int</span> s)&#123;</span><br><span class="line">    g.<span class="built_in">build</span>(s);</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">      ans+=g[i]==<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="built_in">calc</span>(i)&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>)-&gt;<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/24/abc016/" data-id="clwjak0ll000328ope3o49uj1" data-title="abc016" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-abc036" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/04/24/abc036/" class="article-date">
@@ -115,88 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc036/" data-id="clvdeqvwx00001topd738d6d2" data-title="abc036" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-abc128" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/04/24/abc128/" class="article-date">
-  <time class="dt-published" datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/242</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/04/24/abc128/">abc128</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc128/tasks/abc128_e">E - Roadwork</a></p>
-<p>N个障碍物在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[S,T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span> 时刻出现在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 位置处<br><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span></span></span></span> 个人从0处,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> 时刻出发，每秒走一步，请求他能走到哪里？若可以一直走，输出-1  </p>
-<p>假设一个人被阻碍在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 位置，那么他至少走了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 秒<br>反过来考虑一个障碍可以阻碍哪些人<br>一定是走了在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>S</mi><mo>−</mo><mi>X</mi><mo separator="true">,</mo><mi>T</mi><mo>−</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[S-X,T-X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span> 区间内<br>离线询问即可  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n,q;std::cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    std::vector&lt;T&gt;<span class="built_in">a</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp;[x,s,t]:a)&#123;</span><br><span class="line">        std::cin&gt;&gt;s&gt;&gt;t&gt;&gt;x;</span><br><span class="line">        s-=x;</span><br><span class="line">        t-=x;</span><br><span class="line">    &#125;</span><br><span class="line">    std::<span class="built_in">sort</span>(a.<span class="built_in">begin</span>(), a.<span class="built_in">end</span>());</span><br><span class="line">    std::set&lt;P&gt;se;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;q;i++)&#123;</span><br><span class="line">        <span class="type">int</span> d;std::cin&gt;&gt;d;</span><br><span class="line">        se.<span class="built_in">insert</span>(P&#123;d,i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt;<span class="built_in">ans</span>(q,<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>[x,l,r]:a)&#123;</span><br><span class="line">        <span class="keyword">auto</span> it=se.<span class="built_in">lower_bound</span>(P&#123;l,<span class="number">-1</span>&#125;);</span><br><span class="line">        <span class="keyword">while</span>(it!=se.<span class="built_in">end</span>())&#123;</span><br><span class="line">            <span class="keyword">if</span>(it-&gt;first&gt;=r)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ans[it-&gt;second]=x;</span><br><span class="line">            se.<span class="built_in">erase</span>(it++);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;q;i++)&#123;</span><br><span class="line">        std::cout&lt;&lt;ans[i]&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc128/" data-id="clvdeqvwz00011topbie89ihs" data-title="abc128" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-abc016" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/04/24/abc016/" class="article-date">
-  <time class="dt-published" datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/242</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/04/24/abc016/">abc016</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc016/tasks/abc016_3">C - 友達の友達</a></p>
-<p>将朋友关系抽象为边，找到最小距离为2的所有朋友关系即可  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">Dijkstra</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Edge</span> &#123;</span><br><span class="line">        <span class="type">int</span> to;</span><br><span class="line">        T cost;</span><br><span class="line">        <span class="built_in">Edge</span>(<span class="type">int</span> _to, T _cost) : <span class="built_in">to</span>(_to), <span class="built_in">cost</span>(_cost) &#123;&#125;</span><br><span class="line">        <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Edge &amp;o) <span class="type">const</span> &#123; <span class="keyword">return</span> cost &gt; o.cost; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    std::vector&lt;std::vector&lt;Edge&gt;&gt; G;</span><br><span class="line">    std::vector&lt;T&gt; ds;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; bs;</span><br><span class="line">    <span class="built_in">Dijkstra</span>(<span class="type">int</span> n) : <span class="built_in">G</span>(n) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, T c)</span> </span>&#123; G[u].<span class="built_in">emplace_back</span>(v, c); &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = G.<span class="built_in">size</span>();</span><br><span class="line">        ds.<span class="built_in">assign</span>(n, std::numeric_limits&lt;T&gt;::<span class="built_in">max</span>());</span><br><span class="line">        bs.<span class="built_in">assign</span>(n, <span class="number">-1</span>);</span><br><span class="line">        std::priority_queue&lt;Edge&gt; pq;</span><br><span class="line">        ds[s] = <span class="number">0</span>;</span><br><span class="line">        pq.<span class="built_in">emplace</span>(s, ds[s]);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">not</span> pq.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> [u, cost_u] = pq.<span class="built_in">top</span>();</span><br><span class="line">            pq.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span> (ds[u] &lt; cost_u) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> [v, cost_v] : G[u]) &#123;</span><br><span class="line">                <span class="keyword">if</span> (ds[v] &gt; ds[u] + cost_v) &#123;</span><br><span class="line">                    ds[v] = ds[u] + cost_v;</span><br><span class="line">                    bs[v] = u;</span><br><span class="line">                    pq.<span class="built_in">emplace</span>(v, ds[v]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    T <span class="keyword">operator</span>[](<span class="type">int</span> k) &#123; <span class="keyword">return</span> ds[k]; &#125;</span><br><span class="line">    <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">restore</span><span class="params">(<span class="type">int</span> to)</span> </span>&#123;</span><br><span class="line">        std::vector&lt;<span class="type">int</span>&gt; ans;</span><br><span class="line">        <span class="keyword">if</span> (bs[to] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ans;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (~to) &#123;</span><br><span class="line">            ans.<span class="built_in">emplace_back</span>(to);</span><br><span class="line">            to = bs[to];</span><br><span class="line">        &#125;</span><br><span class="line">        std::<span class="built_in">reverse</span>(ans.<span class="built_in">begin</span>(), ans.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> N,M;</span><br><span class="line">  std::cin&gt;&gt;N&gt;&gt;M;</span><br><span class="line">  Dijkstra&lt;<span class="type">int</span>&gt;<span class="built_in">g</span>(N);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;M;i++)&#123;</span><br><span class="line">    <span class="type">int</span> a,b;</span><br><span class="line">    std::cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    --a,--b;</span><br><span class="line">    g.<span class="built_in">add_edge</span>(a, b, <span class="number">1</span>);</span><br><span class="line">    g.<span class="built_in">add_edge</span>(b, a, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">auto</span> calc=[&amp;](<span class="type">int</span> s)&#123;</span><br><span class="line">    g.<span class="built_in">build</span>(s);</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">      ans+=g[i]==<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="built_in">calc</span>(i)&lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>)-&gt;<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc016/" data-id="clvdfcfj900000sopboefewkx" data-title="abc016" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc036/" data-id="clwjak0lm000428op2p1518ie" data-title="abc036" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -244,7 +203,48 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc110/" data-id="clvdfcfje00010sop5vvq99d6" data-title="abc110" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc110/" data-id="clwjak0lm000528op5kyif3p0" data-title="abc110" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-abc128" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/24/abc128/" class="article-date">
+  <time class="dt-published" datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">po0t_tit2024/4/242</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/04/24/abc128/">abc128</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc128/tasks/abc128_e">E - Roadwork</a></p>
+<p>N个障碍物在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>S</mi><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[S,T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span> 时刻出现在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 位置处<br><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span></span></span></span> 个人从0处,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> 时刻出发，每秒走一步，请求他能走到哪里？若可以一直走，输出-1  </p>
+<p>假设一个人被阻碍在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 位置，那么他至少走了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi></mrow><annotation encoding="application/x-tex">X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span> 秒<br>反过来考虑一个障碍可以阻碍哪些人<br>一定是走了在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>S</mi><mo>−</mo><mi>X</mi><mo separator="true">,</mo><mi>T</mi><mo>−</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[S-X,T-X)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">)</span></span></span></span> 区间内<br>离线询问即可  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n,q;std::cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    std::vector&lt;T&gt;<span class="built_in">a</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp;[x,s,t]:a)&#123;</span><br><span class="line">        std::cin&gt;&gt;s&gt;&gt;t&gt;&gt;x;</span><br><span class="line">        s-=x;</span><br><span class="line">        t-=x;</span><br><span class="line">    &#125;</span><br><span class="line">    std::<span class="built_in">sort</span>(a.<span class="built_in">begin</span>(), a.<span class="built_in">end</span>());</span><br><span class="line">    std::set&lt;P&gt;se;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;q;i++)&#123;</span><br><span class="line">        <span class="type">int</span> d;std::cin&gt;&gt;d;</span><br><span class="line">        se.<span class="built_in">insert</span>(P&#123;d,i&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt;<span class="built_in">ans</span>(q,<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>[x,l,r]:a)&#123;</span><br><span class="line">        <span class="keyword">auto</span> it=se.<span class="built_in">lower_bound</span>(P&#123;l,<span class="number">-1</span>&#125;);</span><br><span class="line">        <span class="keyword">while</span>(it!=se.<span class="built_in">end</span>())&#123;</span><br><span class="line">            <span class="keyword">if</span>(it-&gt;first&gt;=r)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ans[it-&gt;second]=x;</span><br><span class="line">            se.<span class="built_in">erase</span>(it++);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;q;i++)&#123;</span><br><span class="line">        std::cout&lt;&lt;ans[i]&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/24/abc128/" data-id="clwjak0ln000628op1wvke81a" data-title="abc128" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -287,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc133/" data-id="clvdfcfjf00020sopeehh0c4c" data-title="abc133" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc133/" data-id="clwjak0ln000728opbwgd1tbv" data-title="abc133" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -329,7 +329,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc160/" data-id="clvdfcfjf00030sopcdtv3r1g" data-title="abc160" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc160/" data-id="clwjak0ln000828op1n0da9dw" data-title="abc160" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -379,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc170/" data-id="clvdfcfjg00040sop06wc6kh7" data-title="abc170" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc170/" data-id="clwjak0lo000928op5zyp5080" data-title="abc170" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -425,7 +425,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc325/" data-id="clvdfcfjg00050sop24og8j1z" data-title="abc325" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc325/" data-id="clwjak0lp000b28opffpqeu22" data-title="abc325" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -501,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/abc349/" data-id="clvdfcfjg00060sopgnbc2idf" data-title="abc349" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/abc349/" data-id="clwjak0lp000c28op6g0623in" data-title="abc349" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -543,7 +543,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/24/imos/" data-id="clvdfcfjh00070sop3fd9347b" data-title="imos" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="http://example.com/2024/04/24/imos/" data-id="clwjak0lr000i28opb51s8zd2" data-title="imos" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
